@@ -79,34 +79,57 @@
     { id: 5, label: 'Study for Robotics Test', checked: false, priority: 'no', date: '12/19/24', time: '11:59 PM', category: 'Team 2554 Robotics Onboarding'}
   ];
 
-	function sortTasksByDate() {
-		var i = 0;
-    while (i < checkboxes.length - 1) {
-			var j = 0;
-      while (j < checkboxes.length - i - 1 ) {
-        // Convert dates to comparable format
-        var dateA = new Date('20' + checkboxes[j].date.split('/')[2] + '-' + 
-                             checkboxes[j].date.split('/')[0] + '-' + 
-                             checkboxes[j].date.split('/')[1]);
-        var dateB = new Date('20' + checkboxes[j+1].date.split('/')[2] + '-' + 
-                             checkboxes[j+1].date.split('/')[0] + '-' + 
-                             checkboxes[j+1].date.split('/')[1]);
-        // Swap if needed
-        if (dateA > dateB) {
-          var temp = checkboxes[j];
-          checkboxes[j] = checkboxes[j+1];
-          checkboxes[j+1] = temp;
-        }
-				j++
-      }
-			i++
-    }
-    // Trigger reactivity
-    checkboxes = checkboxes;
-  }
+	function parseDateTime(dateStr, timeStr) {
+	  // Split the date (MM/DD/YY format)
+	  var dateParts = dateStr.split('/');
+	  var month = Number(dateParts[0]);
+	  var day = Number(dateParts[1]);
+	  var year = Number(dateParts[2]) + 2000;
+	  
+	  // Parse time
+	  var timeParts = timeStr.split(' ');
+	  var clockTime = timeParts[0].split(':');
+	  var hours = Number(clockTime[0]);
+	  var minutes = Number(clockTime[1]);
+	  var period = timeParts[1];
+	  
+	  // Convert to 24-hour format
+	  if (period === 'PM' && hours !== 12) {
+	    hours += 12;
+	  }
+	  if (period === 'AM' && hours === 12) {
+	    hours = 0;
+	  }
+	  
+	  // Create Date object
+	  return new Date(year, month - 1, day, hours, minutes);
+	}
 
-  // Call the sort function initially to sort the tasks
-  sortTasksByDate();
+	function sortTasksByDate() {
+	  var i = 0;
+		while (i < checkboxes.length - 1) {
+	    var j = 0;
+	    while (j < checkboxes.length - i - 1) {
+	      var dateA = parseDateTime(checkboxes[j].date, checkboxes[j].time);
+	      var dateB = parseDateTime(checkboxes[j+1].date, checkboxes[j+1].time);
+	      
+	      // Swap if needed
+	      if (dateA > dateB) {
+	        var temp = checkboxes[j];
+	        checkboxes[j] = checkboxes[j+1];
+	        checkboxes[j+1] = temp;
+	      }
+	      j++;
+	    }
+	    i++;
+	  }
+	  
+	  // Trigger reactivity
+	  checkboxes = checkboxes;
+	}
+	
+	// Call the sort function initially to sort the tasks
+	sortTasksByDate();
 	
 	$: uncheckedCount = function() {
     var count = 0;
