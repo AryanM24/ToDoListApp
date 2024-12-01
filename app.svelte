@@ -30,9 +30,9 @@
     margin-bottom: 8px;
   }
 
-	label{
-		color:#FFFFFF;
-	}
+  label{
+    color:#FFFFFF;
+  }
 
   input[type="checkbox"] {
     accent-color: #bb86fc;
@@ -70,7 +70,7 @@
 
 
 <script>
-	// object array
+  // object array
   let checkboxes = [
     { id: 1, label: 'Admire Amruth', checked: false, priority: 'yes', date: '12/2/24', time: '11:59 PM', category: 'Team 2554 Robotics Onboarding'},
     { id: 2, label: 'Develop C++ Interpreter', checked: false, priority: 'yes', date: '12/2/24', time: '11:59 PM', category: 'Team 2554 Robotics Onboarding' },
@@ -132,29 +132,29 @@
 	sortTasksByDate();
 	
 	$: uncheckedCount = function() {
-    var count = 0;
+    		var count = 0;
 		var i = 0;
-    while (i < checkboxes.length) {
-      if (checkboxes[i].checked === false) {
-        count = count + 1;
-      }
-			i++;
-    }
-    return count;
-  }();
+    		while (i < checkboxes.length) {
+   		   if (checkboxes[i].checked === false) {
+        		count = count + 1;
+      		   }
+		   i++;
+    		}
+    		return count;
+  	}();
 
 	function addTask() {
-    var newTaskLabel = prompt("Enter the new task: ");
+    		var newTaskLabel = prompt("Enter the new task: ");
 		var newTaskDate = prompt("Enter the due date for the new task (MM/DD/YY): ");
 		var newTaskTime = prompt("Enter the due time for the new task (e.g.: 11:59 PM): ");
 		var newTaskCategory = prompt("Enter the catgroy/class of the new task (e.g.: Algebra 2H): ");
 		var priority = prompt("Is this task a priority (yes/no): ");
-    if (newTaskLabel) {
-    checkboxes = [...checkboxes, { id: checkboxes[checkboxes.length - 1].id + 1, label: newTaskLabel, checked: false ,
+    		if (newTaskLabel) {
+    			checkboxes = [...checkboxes, { id: checkboxes[checkboxes.length - 1].id + 1, label: newTaskLabel, checked: false ,
 																	 date: newTaskDate, priority: priority, time: newTaskTime, category: newTaskCategory}];
-	  }
+	  	}
 		sortTasksByDate();
-  }
+  	}
 
   // Function to remove completed tasks
   function removeCompleted() {
